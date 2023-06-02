@@ -19,23 +19,23 @@
 </div>
 
 <ul class="course">
-    @foreach (var course in Model)
+    @foreach (var i in Model)
             {
-                <li>
-                    <div class="date">
+                <li class="list-group-item course position-relative mb-4 border-0">
+                    <div class="text-center text-white" style="background-color: lightcoral; width: 60px; border-radius: 8px;">
                         <div class="month">
-                            @course.DateTime.ToString("MM")
+                            @i.DateTime.ToString("MM")
                         </div>
                         <div class="day">
-                            @course.DateTime.ToString("dd")
+                            @i.DateTime.ToString("dd")
                         </div>
                     </div>
-                    <div class="details">
+                    <div class="details position-absolute" style="top:20px; left: 100px;">
                         <span class="lecturer">
-                            @course.Lecturer.Name
+                            @i.Lecturer.Name |
                         </span>
                         <span class="category">
-                            @course.Category.Name
+                            @i.Category.Name
                         </span>
                     </div>
                 </li>
