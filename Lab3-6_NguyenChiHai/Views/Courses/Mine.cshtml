@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Lab3_6_NguyenChiHai.Models.Course>
+@{
+    ViewBag.Title = "Mine";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron">
+    <h1>Mine</h1>
+</div>
+
+<ul class="course">
+    @foreach (var i in Model)
+    {
+        <li class="list-group-item course position-relative mb-4 border-0">
+            <div class="text-center text-white" style="background-color: lightcoral; width: 60px; border-radius: 8px;">
+                <div class="month">
+                    @i.DateTime.ToString("MM")
+                </div>
+                <div class="day">
+                    @i.DateTime.ToString("dd")
+                </div>
+            </div>
+            <div class="details position-absolute" style="top:10px; left: 100px;">
+                <span class="lecturer">
+                    @i.Lecturer.Name
+                </span>
+                <span class="category">
+                    @i.Category.Name
+                </span>
+            </div>
+            <div class="action" style=" left: 100px; top: 35px; position: absolute; display: block;">
+                <a href="@Url.Action("Edit", "Courses", new { id = i.Id})">Edit</a> |
+                <a href="#" class="js-cancel-course" data-course-id="@i.Id">Delete</a>
+            </div>
+        </li>
+    }
+</ul>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".js-cancel-course").click(function (e) {
+                e.preventDefault();
+                var link = $(e.target);
+                bootbox.confirm("Are you sure to cancel?",
+                    function () {
+                        $.ajax({
+                            url: "/api/courses/" + link.attr("data-course-id"),
+                            method: "DELETE"
+                        })
+                            .done(function () {
+                                link.parents("li").fadeOut(function () {
+                                    $(this).remove();
+                                });
+                            })
+                            .fail(function () {
+                                alert("Something failed!");
+                            });
+                    });
+                });
+        });
+        
+    </script>    
+}
+
